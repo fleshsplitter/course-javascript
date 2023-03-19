@@ -4,5 +4,5 @@ import('./styles.css');
 const pageNames = ['login', 'main', 'profile'];
 
 document.addEventListener('click', () => {
-  pages.openPage('main');
+  pages.openPage(pageNames[Math.floor(Math.random() * 3)]);
 });
