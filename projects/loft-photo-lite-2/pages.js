@@ -6,18 +6,15 @@ const pagesMap = {
 
 export default {
   openPage(name) {
-    const loginDiv = document.querySelector(pagesMap.login);
-    const mainDiv = document.querySelector(pagesMap.main);
-    const profileDiv = document.querySelector(pagesMap.profile);
-    const pages = [loginDiv, mainDiv, profileDiv];
+    const pagesList = document.querySelectorAll('.page');
 
-    pages.forEach((element) => {
-      // console.log(element.classList.contains(name));
+    for (let element of pagesList) {
+      console.log(element);
       if (element.classList.contains(name)) {
         element.classList.remove('hidden');
       } else {
         element.classList.add('hidden');
       }
-    });
+    }
   },
 };
