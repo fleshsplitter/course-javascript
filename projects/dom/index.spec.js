@@ -104,7 +104,7 @@ describe('ДЗ 4 - Работа с DOM', () => {
       };
 
       where.innerHTML = `<p class="${class1}"><b>${text1}</b> <b class="${class1} ${class2}">${text2}</b></p>`;
-      const result = collectDOMStat(where);
+      const result = collectDOMStat(where);``
 
       expect(result).toEqual(stat);
     });
