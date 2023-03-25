@@ -7,7 +7,13 @@ export default {
     return arr[parseInt(Math.random() * (arr.length - 1))];
   },
 
-  async getNextPhoto() {},
+  async getNextPhoto() {
+    const friend = this.getRandomElement(friendsDB);
+    const photos = photosDB[friend.id];
+    const photo = this.getRandomElement(photos);
+
+    return {friend, url: photo.url};
+  },
 
   login() {},
 
