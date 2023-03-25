@@ -1,5 +1,11 @@
 export default {
-  getRandomElement(array) {},
+  getRandomElement(array) {
+    if (!array.length) {
+      return null;
+    }
+  
+    return arr[parseInt(Math.random() * (arr.length - 1))];
+  },
 
   async getNextPhoto() {},
 
