@@ -37,7 +37,7 @@ export default {
   login() {
     return new Promise((resolve, reject) => {
       VK.init({
-        apiId: APP_ID,
+        apiId: 51591544,
       });
       
       VK.Auth.login((response) => {
@@ -67,7 +67,7 @@ export default {
 
   getFriends() {
     const params = {
-      fields: ['photo_50', photo_100],
+      fields: ['photo_50', 'photo_100'],
     }
 
     return this.callApi('friends.get', params);
