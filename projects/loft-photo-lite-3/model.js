@@ -65,6 +65,14 @@ export default {
     })
   },
 
+  getUsers() {
+    const params = {
+      fields: ['photo_200'],
+    }
+
+    return this.callApi('users.get', params);
+  },
+
   getFriends() {
     const params = {
       fields: ['photo_50', 'photo_100'],
@@ -75,6 +83,7 @@ export default {
 
   async init() {
     this.photoCache = {};
+    this.users = await this.getUsers();
     this.friends = await this.getFriends();
   },
 
@@ -102,3 +111,4 @@ export default {
     return photos;
   },
 };
+
