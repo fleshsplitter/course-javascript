@@ -1,21 +1,122 @@
 const PERM_FRIENDS = 2;
 const PERM_PHOTOS = 4;
-const APP_ID = 5350105;
 
 export default {
-  getRandomElement(array) {},
+  getRandomElement(array) {
+    if (!array.length) {
+      return null;
+    }
 
-  async getNextPhoto() {},
+    return arr[parseInt(Math.random() * (arr.length - 1))];
+  },
 
-  async init() {},
+  async getNextPhoto() {
+    const friend = this.getRandomElement(this.friends.items);
+    const photos = await this.getFriendPhotos(friend.id);
+    const photo = this.getRandomElement(photos.items);
+    const size = this.findSize(photo);
 
-  login() {},
+    return { friend, id: photo.id, url: size.url };
+  },
 
-  logout() {},
+  findSize() {
+    const size = photo.sizes.find((size) => size.width >= 360);
 
-  getFriends() {},
+    if (!size) {
+      return photo.sizes.reduce((biggest, current) => {
+        if (current.width > biggest.width) {
+          return current;
+        }
 
-  getUsers(ids) {},
+        return biggest;
+      }, photo.sizes[0]);
+    }
 
-  async getFriendPhotos(id) {},
+    return size;
+  },
+
+  login() {
+    return new Promise((resolve, reject) => {
+      VK.init({
+        apiId: 51591544,
+      });
+
+      VK.Auth.login((response) => {
+        if (response.session) {
+          resolve(response);
+        } else {
+          console.error(response);
+          reject(response);
+        }
+      }, PERM_FRIENDS | PERM_PHOTOS);
+    });
+  },
+
+  logout() {
+    return new Promice((resolve) => VK.Auth.revokeGrants(resolve));
+  },
+
+  callApi(method, params) {
+    params.v = '5.81';
+
+    return new Promise((resolve, reject) => {
+      VK.api(method, params, (response) => {
+        if (response.error) {
+          reject(new Error(response.error.error_msg));
+        } else {
+          resolve(response.response);
+        }
+      })
+    })
+  },
+
+  getUsers() {
+    const params = {
+      fields: ['photo_50', 'photo_100'],
+    }
+
+    if (ids) {
+      params.user_ids = ids;
+    }
+
+    return this.callApi('users.get', params);
+  },
+
+  getFriends() {
+    const params = {
+      fields: ['photo_50', 'photo_100'],
+    }
+
+    return this.callApi('friends.get', params);
+  },
+
+  async init() {
+    this.photoCache = {};
+    [this.me] = await this.getUsers();
+    this.friends = await this.getFriends();
+  },
+
+  getPhotos(owner) {
+    const params = {
+      owner_id: owner,
+    };
+
+    return this.callApi('photos.getAll', params);
+  },
+
+  // photoCache: {},
+  async getFriendPhotos(id) {
+    const photos = this.photoCache[id];
+
+    if (photos) {
+      return photos;
+    }
+
+    // const photos = вместо этого комментария вставьте код для получения фотографии друга из ВК
+    photos = await this.getPhotos(id);
+
+    this.photoCache[id] = photos;
+
+    return photos;
+  },
 };

@@ -19,9 +19,6 @@ export default {
   },
 
 
-
-  }
-
   handleEvents() {
     let startFrom;
 
@@ -37,5 +34,6 @@ export default {
         await this.getNextPhoto();
       }
     });
-  },
-};
+  }
+}
+
